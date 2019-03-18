@@ -1,0 +1,12 @@
+# Server
+server:
+  port: 8879
+
+# MySql
+mysql:
+  db:
+    host: 120.27.215.53
+    port: 8066
+    username: root
+    password: Fun20#Chain19
+    schema: TESTDB
