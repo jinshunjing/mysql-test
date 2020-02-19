@@ -1,0 +1,26 @@
+dataSources:
+  ds0: !!com.alibaba.druid.pool.DruidDataSource
+    driverClassName: com.mysql.jdbc.Driver
+    url: jdbc:mysql://${mysql.db.host}:${mysql.db.port}/testdb1?autoReconnect=true&amp;useUnicode=true&amp;characterEncoding=utf8&amp;zeroDateTimeBehavior=convertToNull&amp;useSSL=false
+    username: ${mysql.db.username}
+    password: ${mysql.db.password}
+  ds1: !!com.alibaba.druid.pool.DruidDataSource
+    driverClassName: com.mysql.jdbc.Driver
+    url: jdbc:mysql://${mysql.db.host}:${mysql.db.port}/testdb2?autoReconnect=true&amp;useUnicode=true&amp;characterEncoding=utf8&amp;zeroDateTimeBehavior=convertToNull&amp;useSSL=false
+    username: ${mysql.db.username}
+    password: ${mysql.db.password}
+
+shardingRule:
+  tables:
+    t_order:
+      actualDataNodes: ds${0..1}.t_order_${0..1}
+      tableStrategy:
+        inline:
+          shardingColumn: order_id
+          algorithmExpression: t_order_${order_id % 2}
+      keyGenerator:
+        type: SNOWFLAKE
+        column: order_id
+
+props:
+  sql.show: true
